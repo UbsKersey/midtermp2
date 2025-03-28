@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ABC Colleges Library Users</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            max-width: 800px;
+            margin: auto;
+        }
+        .card {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+            background: #f9f9f9;
+        }
+        .card img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>ABC Colleges</h1>
+    <h2>Library Users</h2>
+    <div class="container" id="library-users"></div>
+    
+    <script>
+        const usersXML = `
+        <users>
+            <user>
+                <name>Ubs Kersey Javier</name>
+                <course>BSIT</course>
+                <year>3/</year>
+                <section>3B-G2</section>
+                <advisor>Engr. Noemi Reyes</advisor>
+                <schoolYear>2025-2026</schoolYear>
+                <photo>https://www.thefamouspeople.com/profiles/images/daniel-padilla-3.jpg</photo>
+            </user>
+        </users>`;
+
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(usersXML, "text/xml");
+        const user = xmlDoc.getElementsByTagName("user")[0];
+
+        const userCard = document.createElement("div");
+        userCard.classList.add("card");
+        userCard.innerHTML = `
+            <div class="card-header">
+                <img src="${user.getElementsByTagName("photo")[0].textContent}" alt="User Photo">
+                <strong>${user.getElementsByTagName("name")[0].textContent}</strong>
+            </div>
+            <p><strong>Course:</strong> ${user.getElementsByTagName("course")[0].textContent}</p>
+            <p><strong>Year Level / Section:</strong> ${user.getElementsByTagName("year")[0].textContent}${user.getElementsByTagName("section")[0].textContent}</p>
+            <p><strong>Adviser:</strong> ${user.getElementsByTagName("advisor")[0].textContent}</p>
+            <p><strong>School Year:</strong> ${user.getElementsByTagName("schoolYear")[0].textContent}</p>
+        `;
+
+        for (let i = 0; i < 9; i++) {
+            document.getElementById("library-users").appendChild(userCard.cloneNode(true));
+        }
+    </script>
+</body>
+</html>
